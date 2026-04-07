@@ -1074,7 +1074,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     for (var y=1; y<rows-1; y++) for (var x=1; x<cols-1; x++) {
       var i=y*cols+x;
       buf1[i] = (buf0[i-1]+buf0[i+1]+buf0[i-cols]+buf0[i+cols])/2 - buf1[i];
-      buf1[i] *= 0.985;
+      buf1[i] *= 0.96;
     }
     var t=buf0; buf0=buf1; buf1=t;
   }
@@ -1120,8 +1120,8 @@ footer.visible { opacity: 1; transform: translateY(0); }
     if(!drag) return;
     var p=pos(e); splash(p[0],p[1],0.45);
   }
-  document.addEventListener('mousedown',  dn, {passive:false});
-  document.addEventListener('mousemove',  mv, {passive:false});
+  document.addEventListener('mousedown',  dn, {passive:true});
+  document.addEventListener('mousemove',  mv, {passive:true});
   document.addEventListener('mouseup',    function(){drag=false;});
   document.addEventListener('touchstart', dn, {passive:true});
   document.addEventListener('touchmove',  mv, {passive:true});
