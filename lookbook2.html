@@ -47,6 +47,9 @@ img { display: block; max-width: 100%; }
   z-index: 0;
   pointer-events: none;
 }
+#waterCanvas, .hero {
+  touch-action: pan-y;
+}
 
 /* ════════════════════════════════════════════════════════════════
    LAYER UTILITY
@@ -1111,18 +1114,17 @@ footer.visible { opacity: 1; transform: translateY(0); }
   function dn(e) {
     drag=true; if(hint) hint.style.opacity='0';
     var p=pos(e); splash(p[0],p[1],0.85);
-    if(e.cancelable) e.preventDefault();
+    if(e.cancelable && e.type !== 'touchstart') e.preventDefault();
   }
   function mv(e) {
     if(!drag) return;
     var p=pos(e); splash(p[0],p[1],0.45);
-    if(e.cancelable) e.preventDefault();
   }
   document.addEventListener('mousedown',  dn, {passive:false});
   document.addEventListener('mousemove',  mv, {passive:false});
   document.addEventListener('mouseup',    function(){drag=false;});
-  document.addEventListener('touchstart', dn, {passive:false});
-  document.addEventListener('touchmove',  mv, {passive:false});
+  document.addEventListener('touchstart', dn, {passive:true});
+  document.addEventListener('touchmove',  mv, {passive:true});
   document.addEventListener('touchend',   function(){drag=false;});
 
   resize();
