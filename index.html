@@ -125,6 +125,9 @@ body {
   height: 100%;
   display: block;
 }
+#waterCanvas, .hero-sticky {
+  touch-action: pan-y;
+}
 .hero-dissolve {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -1132,20 +1135,19 @@ body {
     drag = true;
     if (hint) hint.style.opacity = '0';
     var p = getPos(e); splash(p[0], p[1], 0.85);
-    e.preventDefault();
+    if (e.cancelable && e.type !== 'touchstart') e.preventDefault();
   }
   function mv(e) {
     if (!drag) return;
     var p = getPos(e); splash(p[0], p[1], 0.45);
-    e.preventDefault();
   }
 
   var w = canvas.parentElement;
   w.addEventListener('mousedown',  dn,  { passive: false });
   w.addEventListener('mousemove',  mv,  { passive: false });
   w.addEventListener('mouseup',    function () { drag = false; });
-  w.addEventListener('touchstart', dn,  { passive: false });
-  w.addEventListener('touchmove',  mv,  { passive: false });
+  w.addEventListener('touchstart', dn,  { passive: true });
+  w.addEventListener('touchmove',  mv,  { passive: true });
   w.addEventListener('touchend',   function () { drag = false; });
 
   resize();
