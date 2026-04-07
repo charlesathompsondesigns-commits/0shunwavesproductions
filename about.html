@@ -266,6 +266,9 @@ body {
   height: 100%;
   display: block;
 }
+#waterCanvas, .water-sticky {
+  touch-action: pan-y;
+}
 /* Gold shimmer line — matches v4 hero-sticky::before (z-index 4, height 2px) */
 .water-shimmer-line {
   position: absolute;
@@ -925,12 +928,11 @@ body {
     drag = true;
     if (hint) hint.style.opacity = '0';
     var p = getPos(e); splash(p[0], p[1], 0.85);
-    e.preventDefault();
+    if (e.cancelable && e.type !== 'touchstart') e.preventDefault();
   }
   function mv(e) {
     if (!drag) return;
     var p = getPos(e); splash(p[0], p[1], 0.45);
-    e.preventDefault();
   }
 
   var section = document.getElementById('waterSection');
@@ -938,8 +940,8 @@ body {
     section.addEventListener('mousedown',  dn,  { passive: false });
     section.addEventListener('mousemove',  mv,  { passive: false });
     section.addEventListener('mouseup',    function () { drag = false; });
-    section.addEventListener('touchstart', dn,  { passive: false });
-    section.addEventListener('touchmove',  mv,  { passive: false });
+    section.addEventListener('touchstart', dn,  { passive: true });
+    section.addEventListener('touchmove',  mv,  { passive: true });
     section.addEventListener('touchend',   function () { drag = false; });
   }
 
