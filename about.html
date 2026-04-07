@@ -874,7 +874,7 @@ body {
       for (var x = 1; x < cols - 1; x++) {
         var i = y * cols + x;
         buf1[i] = (buf0[i - 1] + buf0[i + 1] + buf0[i - cols] + buf0[i + cols]) / 2 - buf1[i];
-        buf1[i] *= 0.985;
+        buf1[i] *= 0.96;
       }
     }
     var t = buf0; buf0 = buf1; buf1 = t;
@@ -937,8 +937,8 @@ body {
 
   var section = document.getElementById('waterSection');
   if (section) {
-    section.addEventListener('mousedown',  dn,  { passive: false });
-    section.addEventListener('mousemove',  mv,  { passive: false });
+    section.addEventListener('mousedown',  dn,  { passive: true });
+    section.addEventListener('mousemove',  mv,  { passive: true });
     section.addEventListener('mouseup',    function () { drag = false; });
     section.addEventListener('touchstart', dn,  { passive: true });
     section.addEventListener('touchmove',  mv,  { passive: true });
