@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oshun Waves — Sacred Grove</title>
+<title>Oshun Waves — About</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Jost:wght@200;300;400;500&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+
 /* ─── CSS CUSTOM PROPERTIES ─────────────────────────────────── */
 :root {
   --nav-h: 62px;
@@ -36,7 +37,7 @@ body {
   flex-direction: column;
 }
 
-/* ─── NAV ────────────────────────────────────────────────────── */
+/* ─── NAV (exact v4) ─────────────────────────────────────────── */
 .site-nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -53,6 +54,7 @@ body {
   -webkit-backdrop-filter: blur(12px);
 }
 .nav-logo {
+  text-decoration: none;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
   font-style: italic;
@@ -76,7 +78,8 @@ body {
   text-decoration: none;
   transition: color 0.25s;
 }
-.nav-desktop-links a:hover { color: #C49A35; }
+.nav-desktop-links a:hover  { color: #C49A35; }
+.nav-desktop-links a.active { color: #C49A35; }
 .nav-hamburger {
   display: flex;
   flex-direction: column;
@@ -95,347 +98,18 @@ body {
 .nav-hamburger span:nth-child(2) { width: 11px; }
 .nav-hamburger span:nth-child(3) { width: 18px; }
 
-/* ─── HERO SCROLL REGION ─────────────────────────────────────── */
-.hero-scroll-region {
-  position: relative;
-  width: 100vw;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 220vh;
-  margin-top: var(--nav-h);
+/* Nav gold shimmer line */
+@keyframes gold-shimmer {
+  0%,100% { opacity: 0.18; }
+  50%      { opacity: 0.35; }
 }
-.hero-sticky {
-  position: sticky;
-  top: 0;
-  width: 100vw;
-  height: calc(100vh - var(--nav-h));
-  overflow: hidden;
-  cursor: crosshair;
-}
-.hero-canvas-wrap {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-#waterCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-#waterCanvas, .hero-sticky {
-  touch-action: pan-y;
-}
-.hero-dissolve {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 80px;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(0deg, #040D1E 0%, rgba(4,13,30,0.85) 35%, transparent 100%);
-}
-.hero-hint {
-  position: absolute;
-  top: 18px; right: var(--pad-x);
-  z-index: 5;
-  font-family: 'Jost', sans-serif;
-  font-weight: 400;
-  font-size: clamp(9px, 1.1vw, 11px);
-  color: rgba(196,154,53,0.55);
-  letter-spacing: 2.25px;
-  text-transform: uppercase;
-  pointer-events: none;
-  transition: opacity 0.6s;
-  white-space: nowrap;
-}
-.hero-sticky::after {
+.site-nav::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 45%;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(
-    0deg,
-    rgba(4,13,30,0.92) 0%,
-    rgba(4,13,30,0.60) 40%,
-    rgba(4,13,30,0.15) 75%,
-    rgba(0,0,0,0) 100%
-  );
-}
-.hero-text-overlay {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 30vh var(--pad-x) clamp(100px, 25vh, 300px);
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  background: none;
-  pointer-events: none;
-}
-.hero-sub-label {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: clamp(9px, 1.1vw, 12px);
-  color: rgba(245,237,216,0.75);
-  letter-spacing: 0.27px;
-  line-height: 1.65;
-}
-.hero-rule {
-  width: 32px;
+  bottom: -1px; left: 0; right: 0;
   height: 1px;
-  background: rgba(196,154,53,0.5);
-  flex-shrink: 0;
-}
-.hero-crossfade {
-  position: relative;
-  width: 100%;
-  min-height: 72px;
-}
-.hero-headline {
-  position: absolute;
-  top: 0; left: 0;
-  right: 0;
-  will-change: opacity;
-}
-.hero-headline p {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: clamp(28px, 9.07vw, 36px);
-  color: #F5EDD8;
-  line-height: 1.05;
-  letter-spacing: 0.34px;
-}
-.hero-headline .gold        { color: #C49A35; }
-.hero-headline .gold-italic { color: #C49A35; font-style: italic; }
-.hero-about {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  opacity: 0;
-  will-change: opacity;
-}
-.hero-about p {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(18px, 5.5vw, 24px);
-  color: #F5EDD8;
-  line-height: 1.2;
-}
-
-/* ─── PROJECTS DIVIDER ───────────────────────────────────────── */
-.projects-divider {
-  width: 100%;
-  padding: 0 var(--pad-x) 24px;
-  background: #040D1E;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.projects-divider.visible { opacity: 1; transform: translateY(0); }
-.projects-divider-line {
-  height: 1px;
-  width: 100%;
-  background: rgba(196,154,53,0.1);
-  margin-bottom: 20px;
-}
-.projects-label {
-  font-family: 'Jost', sans-serif;
-  font-weight: 200;
-  font-size: clamp(9px, 1vw, 11px);
-  color: rgba(196,154,53,0.72);
-  letter-spacing: 3.96px;
-  text-transform: uppercase;
-}
-
-/* ─── FEATURE SECTIONS ───────────────────────────────────────── */
-.feature-section {
-  width: 100%;
-  background: #040D1E;
-  padding: clamp(48px, 7vw, 100px) var(--pad-x);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(28px, 4vw, 48px);
-  align-items: center;
-  position: relative;
-}
-.feature-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse 80% 50% at 20% 30%, rgba(30,58,90,0.04) 0%, transparent 70%);
-}
-.feature-image-wrap {
-  width: 100%;
-  height: clamp(220px, 55vw, 300px);
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.feature-image-wrap.visible { opacity: 1; transform: translateY(0); }
-.feature-image-wrap.placeholder {
-  background: #040D1E;
-  border: 0.929px solid #8B6914;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.coming-soon-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(20px, 3vw, 28px);
-  color: #F5EDD8;
-}
-.coming-soon-text em { font-style: italic; color: #C49A35; }
-.feature-img {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -15%;
-  width: 100%;
-  height: 130%;
-  object-fit: cover;
-  object-position: center 30%;
-  max-width: none;
-  pointer-events: none;
-  will-change: transform;
-}
-.img-roots-to-reverence { object-position: center 20%; }
-.feature-content {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(32px, 5vw, 48px);
-  width: 100%;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease 0.15s, transform 0.8s ease 0.15s;
-}
-.feature-content.visible { opacity: 1; transform: translateY(0); }
-.feature-title-wrap { display: flex; flex-direction: column; gap: 16px; }
-.feature-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(24px, 4.5vw, 42px);
-  color: #F5EDD8;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-.feature-title strong { font-weight: 700; }
-.feature-title em     { font-style: italic; color: #C49A35; font-weight: 300; }
-.feature-title .light { font-weight: 300; }
-.feature-description {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: clamp(15px, 1.5vw, 18px);
-  color: rgba(245,237,216,0.85);
-  line-height: 1.55;
-  letter-spacing: -0.01em;
-}
-.explore-btn {
-  width: 100%;
-  padding: clamp(12px, 1.5vw, 16px) 20px;
-  background: #1E3A5A;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  text-align: center;
-  transition: background 0.3s, transform 0.15s;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(18px, 2vw, 22px);
-  color: #fff;
-  line-height: 1.1;
-}
-.explore-btn:hover  { background: #244870; transform: translateY(-1px); }
-.explore-btn:active { transform: translateY(0); }
-
-/* ─── CTA STRIP ──────────────────────────────────────────────── */
-.cta-strip {
-  width: 100%;
-  padding: clamp(24px, 4vw, 64px) var(--pad-x);
-  background: #040D1E;
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.cta-strip.visible { opacity: 1; transform: translateY(0); }
-.cta-inner {
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto;
-  border-radius: 4px;
-  border: 1px solid rgba(196,154,53,0.18);
-  background: rgba(196,154,53,0.03);
-  padding: clamp(24px, 3vw, 48px) clamp(16px, 4vw, 48px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(16px, 2vw, 24px);
-}
-.cta-heading {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(16px, 2vw, 24px);
-  color: #F5EDD8;
-  line-height: 1.3;
-  text-align: center;
-}
-.cta-heading em { font-style: italic; color: #C49A35; }
-.cta-sub {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: clamp(9px, 1vw, 11px);
-  color: rgba(245,237,216,0.62);
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  text-align: center;
-}
-.cta-handle {
-  border: 1px solid rgba(196,154,53,0.4);
-  padding: 8px 22px;
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: clamp(9px, 1vw, 11px);
-  color: #C49A35;
-  letter-spacing: 2px;
-  text-align: center;
-}
-
-/* ─── FOOTER ──────────────────────────────────────────────────── */
-.site-footer {
-  width: 100%;
-  height: clamp(62px, 8vw, 80px);
-  background: #040D1E;
-  border-top: 1px solid rgba(196,154,53,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--pad-x);
-  flex-shrink: 0;
-}
-.footer-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-style: italic;
-  font-size: clamp(12px, 1.5vw, 16px);
-  color: #C49A35;
-  letter-spacing: 1.2px;
-  white-space: nowrap;
-}
-.footer-links {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: clamp(9px, 1vw, 11px);
-  color: rgba(245,237,216,0.55);
-  letter-spacing: 1.08px;
-  white-space: nowrap;
+  background: linear-gradient(90deg, transparent 0%, #C49A35 25%, rgba(196,154,53,0.5) 60%, transparent 100%);
+  animation: gold-shimmer 3.5s ease-in-out infinite;
 }
 
 /* ─── MENU OVERLAY ────────────────────────────────────────────── */
@@ -569,282 +243,419 @@ body {
   text-decoration: none;
 }
 
-/* ─── KEYFRAMES ──────────────────────────────────────────────── */
-@keyframes gold-shimmer {
-  0%,100% { opacity: 0.18; }
-  50%      { opacity: 0.35; }
+
+/* ─── WATER PARALLAX REGION ──────────────────────────────────── */
+.water-parallax-region {
+  position: relative;
+  margin-top: var(--nav-h);
 }
-.site-nav::after {
-  content: '';
+
+/* Sticky water — fills viewport, stays fixed while bio scrolls over */
+.water-sticky {
+  position: sticky;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  z-index: 0;
+  overflow: hidden;
+  cursor: crosshair;
+}
+.water-section-canvas {
   position: absolute;
-  bottom: -1px; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, #C49A35 25%, rgba(196,154,53,0.5) 60%, transparent 100%);
-  animation: gold-shimmer 3.5s ease-in-out infinite;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
-.hero-sticky::before {
-  content: '';
+#waterCanvas, .water-sticky {
+  touch-action: pan-y;
+}
+/* Gold shimmer line — matches v4 hero-sticky::before (z-index 4, height 2px) */
+.water-shimmer-line {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  z-index: 4;
   background: linear-gradient(90deg, transparent 0%, #C49A35 25%, rgba(196,154,53,0.5) 60%, transparent 100%);
   animation: gold-shimmer 3.5s ease-in-out infinite;
+  z-index: 4;
+  pointer-events: none;
+}
+.water-hint {
+  position: absolute;
+  top: 18px;
+  right: var(--pad-x);
+  z-index: 5;
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+  font-size: clamp(9px, 1.1vw, 11px);
+  color: rgba(196,154,53,0.55);
+  letter-spacing: 2.25px;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity 0.6s;
+  white-space: nowrap;
+}
+/* Bottom dark gradient — matches v4 hero-sticky::after exactly */
+.water-sticky::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 45%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    0deg,
+    rgba(4,13,30,0.92) 0%,
+    rgba(4,13,30,0.60) 40%,
+    rgba(4,13,30,0.15) 75%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+/* Founders title — anchored inside sticky water canvas, scrolled over by bio */
+.water-founders-intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 var(--pad-x);
+  pointer-events: none;
+  z-index: 1;
+}
+.founders-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: clamp(9px, 1.1vw, 11px);
+  color: rgba(196,154,53,0.72);
+  letter-spacing: 3.96px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.founders-rule {
+  width: 32px;
+  height: 1px;
+  background: rgba(196,154,53,0.5);
+  margin-bottom: 20px;
+}
+.founders-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(28px, 9.07vw, 36px);
+  color: #F5EDD8;
+  line-height: 1.05;
+  letter-spacing: 0.34px;
+}
+.founders-title em { font-style: italic; color: #C49A35; font-weight: 400; }
+@media (min-width: 768px)  { .founders-title { font-size: clamp(36px, 6vw, 60px);   line-height: 1.0; } }
+@media (min-width: 1024px) { .founders-title { font-size: clamp(52px, 5.5vw, 80px); line-height: 1.0; } }
+@media (min-width: 1280px) { .founders-title { font-size: clamp(64px, 5.2vw, 96px); } }
+@media (min-width: 1536px) { .founders-title { font-size: clamp(72px, 5vw, 108px);  } }
+.founders-sub {
+  margin-top: 20px;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: clamp(9px, 1.1vw, 12px);
+  letter-spacing: 0.27px;
+  color: rgba(245,237,216,0.75);
+  line-height: 1.65;
+}
+
+/* Bio layer scrolls over the sticky water */
+.bio-scroll-layer {
+  position: relative;
+  z-index: 1;
+  margin-top: -50vh; /* pulls content up so it overlaps the water */
+}
+
+/* Blue gradient — the "bridge" between water and solid content */
+.bio-scroll-gradient {
+  height: 60vh;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(4, 18, 50, 0.55) 30%,
+    rgba(4, 13, 30, 0.88) 65%,
+    #040D1E 100%
+  );
   pointer-events: none;
 }
 
-/* ─── RESPONSIVE ─────────────────────────────────────────────── */
-@media (min-width: 480px) {
-  .hero-crossfade { min-height: 80px; }
+/* ─── ABOUT CONTENT ──────────────────────────────────────────── */
+.about-content {
+  background: #040D1E;
+  background-image:
+    radial-gradient(ellipse 55% 35% at 18% 25%, rgba(30,90,120,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 82% 65%, rgba(30,90,120,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 20% at 60% 20%, rgba(196,154,53,0.03) 0%, transparent 50%);
 }
+
+/* Projects-style divider label */
+.section-divider {
+  width: 100%;
+  padding: 0 var(--pad-x) 24px;
+  background: #040D1E;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.section-divider.visible { opacity: 1; transform: translateY(0); }
+.section-divider-line {
+  height: 1px;
+  width: 100%;
+  background: rgba(196,154,53,0.1);
+  margin-bottom: 20px;
+}
+.section-label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: clamp(9px, 1vw, 11px);
+  color: rgba(196,154,53,0.72);
+  letter-spacing: 3.96px;
+  text-transform: uppercase;
+}
+
+/* Bio grid — mirrors feature-section layout from v4 */
+.bio-section {
+  width: 100%;
+  background: #040D1E;
+  padding: clamp(48px, 7vw, 100px) var(--pad-x);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 48px);
+  align-items: center;
+  position: relative;
+}
+.bio-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 50% at 20% 30%, rgba(30,58,90,0.04) 0%, transparent 70%);
+}
+
+/* Name block — styled like feature-title-wrap */
+.bio-name-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease 0.15s, transform 0.8s ease 0.15s;
+}
+.bio-name-wrap.visible { opacity: 1; transform: translateY(0); }
+.bio-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 6vw, 72px);
+  color: #F5EDD8;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.bio-name em     { font-style: italic; color: #C49A35; font-weight: 300; }
+.bio-name strong { font-weight: 700; }
+.bio-role {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: clamp(9px, 1vw, 11px);
+  color: rgba(196,154,53,0.72);
+  letter-spacing: 3.96px;
+  text-transform: uppercase;
+}
+
+/* Pull quote */
+.bio-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(18px, 2.6vw, 28px);
+  color: #F5EDD8;
+  line-height: 1.35;
+  padding-left: clamp(16px, 3vw, 28px);
+  border-left: 2px solid rgba(196,154,53,0.4);
+  max-width: 560px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
+}
+.bio-quote.visible { opacity: 1; transform: translateY(0); }
+
+/* Body copy — matches feature-description */
+.bio-body-wrap {
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease 0.15s, transform 0.8s ease 0.15s;
+}
+.bio-body-wrap.visible { opacity: 1; transform: translateY(0); }
+.bio-body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: clamp(15px, 1.5vw, 18px);
+  color: rgba(245,237,216,0.85);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  max-width: 640px;
+}
+.bio-body p + p { margin-top: 22px; }
+
+/* Tags */
+.bio-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+.bio-tag {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #C49A35;
+  border: 1px solid rgba(196,154,53,0.28);
+  padding: 7px 18px;
+  border-radius: 2px;
+}
+
+/* ─── FOUNDING CIRCLE ────────────────────────────────────────── */
+.collab-section {
+  width: 100%;
+  padding: clamp(24px, 4vw, 64px) var(--pad-x);
+  background: #040D1E;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.collab-section.visible { opacity: 1; transform: translateY(0); }
+.collab-inner {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  border-radius: 4px;
+  border: 1px solid rgba(196,154,53,0.18);
+  background: rgba(196,154,53,0.03);
+  padding: clamp(24px, 3vw, 48px) clamp(16px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 24px);
+}
+.collab-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(16px, 2vw, 22px);
+  color: #F5EDD8;
+  line-height: 1.3;
+  text-align: center;
+}
+.collab-heading em { font-style: italic; color: #C49A35; }
+.collab-sub {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: clamp(9px, 1vw, 11px);
+  color: rgba(245,237,216,0.62);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.collab-names {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid rgba(196,154,53,0.12);
+  padding-top: clamp(16px, 2vw, 24px);
+}
+.collab-name-item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(196,154,53,0.07);
+}
+.collab-name-item:last-child { border-bottom: none; }
+.collab-role-label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(196,154,53,0.65);
+  white-space: nowrap;
+  min-width: 72px;
+}
+.collab-person-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: #F5EDD8;
+}
+.collab-person-name em { font-style: italic; color: #C49A35; }
+
+/* ─── FOOTER (exact v4) ───────────────────────────────────────── */
+.site-footer {
+  width: 100%;
+  height: clamp(62px, 8vw, 80px);
+  background: #040D1E;
+  border-top: 1px solid rgba(196,154,53,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad-x);
+  flex-shrink: 0;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(12px, 1.5vw, 16px);
+  color: #C49A35;
+  letter-spacing: 1.2px;
+  white-space: nowrap;
+}
+.footer-links {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: clamp(9px, 1vw, 11px);
+  color: rgba(245,237,216,0.55);
+  letter-spacing: 1.08px;
+  white-space: nowrap;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
 @media (min-width: 768px) {
-  .hero-headline p { font-size: clamp(36px, 6vw, 60px); line-height: 1.0; }
-  .hero-about p { font-size: clamp(22px, 3vw, 32px); line-height: 1.25; }
-  .hero-crossfade { min-height: 120px; }
-  .hero-sub-label { font-size: 11px; }
-  .feature-section { flex-direction: row; align-items: flex-start; gap: 48px; }
-  .feature-section.feature-alt { flex-direction: row-reverse; }
-  .feature-image-wrap { width: 44%; flex-shrink: 0; height: clamp(280px, 38vw, 400px); }
-  .feature-content { width: 56%; align-self: center; }
-  .explore-btn { max-width: 340px; }
+  .bio-section {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: clamp(48px, 5vw, 80px);
+  }
+  .bio-name-wrap { width: 44%; flex-shrink: 0; }
+  .bio-body-side { width: 56%; }
 }
 @media (min-width: 1024px) {
   .nav-desktop-links { display: flex; }
   .nav-hamburger     { display: none; }
-  .hero-headline p { font-size: clamp(52px, 5.5vw, 80px); line-height: 1.0; }
-  .hero-about p { font-size: clamp(26px, 2.5vw, 38px); line-height: 1.3; }
-  .hero-crossfade { min-height: 160px; }
-  .feature-section { gap: clamp(48px, 5vw, 80px); }
-  .feature-image-wrap { width: 48%; height: clamp(340px, 32vw, 500px); border-radius: 20px; }
-  .feature-content { gap: clamp(36px, 4vw, 56px); }
-  .explore-btn { max-width: 380px; }
   .site-footer { height: 72px; }
   .footer-logo  { font-size: 16px; }
   .footer-links { font-size: 11px; letter-spacing: 1.5px; }
-}
-@media (min-width: 1280px) {
-  .hero-headline p { font-size: clamp(64px, 5.2vw, 96px); }
-  .hero-about p { font-size: clamp(28px, 2.2vw, 42px); }
-  .hero-crossfade { min-height: 180px; }
-  .feature-image-wrap { height: clamp(400px, 30vw, 560px); }
-  .feature-title       { font-size: clamp(36px, 3vw, 52px); }
-  .feature-description { font-size: clamp(16px, 1.2vw, 20px); }
-  .explore-btn         { font-size: clamp(20px, 1.5vw, 24px); }
-  .feature-section { gap: clamp(64px, 6vw, 100px); }
-}
-@media (min-width: 1536px) {
-  .hero-headline p    { font-size: clamp(72px, 5vw, 108px); }
-  .hero-crossfade     { min-height: 200px; }
-  .feature-image-wrap { height: clamp(460px, 28vw, 640px); }
-  .feature-title      { font-size: clamp(40px, 2.8vw, 60px); }
-}
-@media (hover: none) {
-  .explore-btn:hover { background: #1E3A5A; transform: none; }
-}
-
-/* ═══ BRAND NEW DAY — DWELL GALLERY ═══ */
-.bnd-gallery .feature-img { opacity: 0; transition: opacity 0.75s ease; }
-.bnd-gallery .feature-img.bnd-active { opacity: 1; }
-.gallery-dots {
-  position: absolute; bottom: 12px; left: 0; right: 0;
-  display: flex; justify-content: center; gap: 6px;
-  z-index: 4; pointer-events: none;
-}
-.gallery-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: rgba(245,237,216,0.3);
-  transition: background 0.3s, width 0.3s, border-radius 0.3s;
-}
-.gallery-dot.active { width: 16px; border-radius: 3px; background: #C49A35; }
-
-/* ═══════════════════════════════════════════════════
-   WEBGL MAGAZINE LOOK BOOK MODAL
-   ═══════════════════════════════════════════════════ */
-/* ── Magazine Modal ─────────────────────────────────────────── */
-.mag-overlay {
-  position: fixed; inset: 0; z-index: 300;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 14px;
-  background: #040D1E;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.45s ease;
-}
-.mag-overlay.open { opacity: 1; pointer-events: all; }
-.mag-bg {
-  position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 55% 45% at 18% 28%, rgba(196,154,53,0.16) 0%, transparent 60%),
-    radial-gradient(ellipse 45% 55% at 82% 72%, rgba(139,105,20,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 35% at 55% 8%,  rgba(196,154,53,0.08) 0%, transparent 55%);
-}
-.mag-close {
-  position: absolute; top: 18px; right: 18px;
-  background: none; border: 1px solid rgba(196,154,53,0.28);
-  color: #F5EDD8; font-size: 16px;
-  width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.2s, color 0.2s; z-index: 10;
-}
-.mag-close:hover { border-color: #C49A35; color: #C49A35; }
-.mag-section-label {
-  font-family: 'Jost', sans-serif; font-weight: 300;
-  font-size: 10px; letter-spacing: 0.22em;
-  color: rgba(196,154,53,0.65); text-align: center;
-  position: relative; z-index: 5;
-}
-
-/* ── Book container ─────────────────────────────────────────── */
-.mag-book {
-  display: flex; align-items: stretch;
-  position: relative;
-  /* Single page: tall portrait — fills most of screen */
-  width: min(72vh, 88vw);
-  height: min(82vh, 96vw);
-  perspective: 2400px;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.82), 0 0 0 1px rgba(196,154,53,0.14);
-  transition: width 0.45s cubic-bezier(0.4,0,0.2,1),
-              height 0.45s cubic-bezier(0.4,0,0.2,1);
-  flex-shrink: 0;
-}
-/* Left page — hidden on mobile / cover */
-.mag-page-left {
-  display: none; flex: 1; position: relative; overflow: hidden;
-  border-radius: 14px 0 0 14px;
-  background: linear-gradient(145deg, #040d1e 0%, #0b1e38 100%);
-  transition: opacity 0.28s ease;
-}
-.mag-page-left img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover; display: block; pointer-events: none;
-}
-/* Spine */
-.mag-spine {
-  display: none; flex-shrink: 0; width: 2px; z-index: 5;
-  background: linear-gradient(to bottom,
-    transparent 0%, rgba(196,154,53,0.35) 30%,
-    rgba(196,154,53,0.55) 50%, rgba(196,154,53,0.35) 70%, transparent 100%);
-}
-/* Right page */
-.mag-page {
-  flex: 1; position: relative; overflow: hidden;
-  border-radius: 14px;
-  transform-origin: left center;
-  will-change: transform;
-  background: #040D1E;
-}
-.mag-page img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover; pointer-events: none; display: block;
-}
-/* Spread — desktop, after cover */
-@media (min-width: 768px) {
-  .mag-book {
-    width: min(72vh, 88vw);
-    height: min(82vh, 48vw);
-  }
-  .mag-book.spread-open {
-    width: min(96vh, 96vw);
-    height: min(82vh, 48vw);
-  }
-  .mag-book.spread-open .mag-page-left { display: block; }
-  .mag-book.spread-open .mag-page      { border-radius: 0 14px 14px 0; }
-  .mag-book.spread-open .mag-spine     { display: block; }
-}
-/* Cover gradient scrim */
-.mag-page-grad {
-  position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background: linear-gradient(0deg,
-    rgba(4,13,30,0.97) 0%,
-    rgba(4,13,30,0.88) 25%,
-    rgba(4,13,30,0.62) 50%,
-    rgba(4,13,30,0.30) 72%,
-    rgba(4,13,30,0.10) 100%);
-}
-/* Cover text */
-.mag-cover-text {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: clamp(16px,4%,32px) clamp(18px,5%,36px) clamp(20px,5%,38px);
-  z-index: 3;
-  container-type: inline-size;
-}
-.mag-cover-issue {
-  font-family: 'Jost', sans-serif; font-weight: 300;
-  font-size: clamp(9px, 1.8cqw, 13px); letter-spacing: 0.16em;
-  color: rgba(196,154,53,0.78); margin-bottom: clamp(8px,2%,14px);
-}
-.mag-cover-title {
-  font-family: 'Cormorant Garamond', serif; font-weight: 400;
-  font-size: clamp(26px, 7cqw, 58px); color: #F5EDD8;
-  line-height: 1.08; margin-bottom: clamp(8px,2%,14px);
-}
-.mag-cover-title em   { color: #C49A35; font-style: italic; }
-.mag-cover-title strong { font-weight: 700; }
-.mag-cover-rule {
-  width: clamp(28px, 6cqw, 48px); height: 1px;
-  background: rgba(196,154,53,0.55); margin-bottom: clamp(8px,2%,14px);
-}
-.mag-cover-sub {
-  font-family: 'Jost', sans-serif; font-weight: 300;
-  font-size: clamp(10px, 2cqw, 16px); color: rgba(245,237,216,0.72);
-  letter-spacing: 0.03em; line-height: 1.55;
-}
-.mag-cover-season {
-  font-family: 'Jost', sans-serif; font-weight: 200;
-  font-size: clamp(9px, 1.6cqw, 13px); color: rgba(196,154,53,0.68);
-  margin-top: clamp(5px,1.5%,10px);
-}
-/* Page flip keyframes */
-@keyframes magOut  { from { transform: rotateY(0deg);   } to { transform: rotateY(-90deg); } }
-@keyframes magIn   { from { transform: rotateY(90deg);  } to { transform: rotateY(0deg);   } }
-@keyframes magOutR { from { transform: rotateY(0deg);   } to { transform: rotateY(90deg);  } }
-@keyframes magInR  { from { transform: rotateY(-90deg); } to { transform: rotateY(0deg);   } }
-/* Navigation */
-.mag-nav {
-  display: flex; align-items: center; gap: 14px;
-  position: relative; z-index: 5;
-}
-.mag-arrow {
-  width: 42px; height: 42px; border-radius: 50%;
-  border: 1px solid rgba(245,237,216,0.18);
-  background: none; color: #F5EDD8; font-size: 26px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.2s, background 0.2s; line-height: 1;
-}
-.mag-arrow:hover { border-color: #C49A35; background: rgba(196,154,53,0.07); }
-.mag-arrow:disabled { opacity: 0.28; cursor: default; }
-.mag-dots { display: flex; gap: 7px; align-items: center; }
-.mag-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: rgba(245,237,216,0.22);
-  transition: background 0.3s, width 0.3s, border-radius 0.3s;
-  cursor: pointer;
-}
-.mag-dot.active { width: 18px; border-radius: 3px; background: #C49A35; }
-.mag-hint {
-  font-family: 'Jost', sans-serif; font-weight: 300;
-  font-size: 10px; letter-spacing: 0.2em;
-  color: rgba(245,237,216,0.3); text-align: center;
-  position: relative; z-index: 5;
 }
 </style>
 </head>
 <body>
 
-<!-- ─── MENU OVERLAY ──────────────────────────────────────── -->
+<!-- ─── MENU OVERLAY ──────────────────────────────────────────── -->
 <div id="menuOverlay" onclick="closeMenu()"></div>
 
-<!-- ─── SLIDE-IN MENU ─────────────────────────────────────── -->
+<!-- ─── SLIDE-IN MENU ─────────────────────────────────────────── -->
 <div id="siteMenu" class="site-menu" aria-hidden="true">
   <div class="menu-head">
     <div class="menu-logo">Oshun <em>Waves</em></div>
     <button class="menu-close" onclick="closeMenu()" aria-label="Close menu">✕</button>
   </div>
   <div class="menu-links">
-    <a href="#projects" class="menu-link" onclick="closeMenu()">Projects</a>
+    <a href="index.html" class="menu-link" onclick="closeMenu()">Home</a>
     <a href="about.html" class="menu-link" onclick="closeMenu()">About</a>
-    <a href="#contact" class="menu-link" onclick="closeMenu()">Contact</a>
+    <a href="index.html#contact" class="menu-link" onclick="closeMenu()">Contact</a>
     <div class="menu-divider"></div>
   </div>
   <div class="menu-cta">
@@ -855,21 +666,21 @@ body {
   </div>
   <div class="menu-footer">
     <span class="menu-footer-logo">Oshun Waves</span>
-    <a href="#contact" class="menu-footer-link">Contact</a>
+    <a href="index.html#contact" class="menu-footer-link">Contact</a>
     <span class="menu-footer-link">© 2026</span>
   </div>
 </div>
 
-<!-- ─── SITE ──────────────────────────────────────────────── -->
+<!-- ─── SITE ───────────────────────────────────────────────────── -->
 <div id="site">
 
   <!-- NAV -->
   <nav class="site-nav">
-    <div class="nav-logo">Oshun <em>Waves</em></div>
+    <a href="index.html" class="nav-logo">Oshun <em>Waves</em></a>
     <div class="nav-desktop-links">
-      <a href="#projects">Projects</a>
-      <a href="about.html">About</a>
-      <a href="#contact">Contact</a>
+      <a href="index.html">Home</a>
+      <a href="about.html" class="active">About</a>
+      <a href="index.html#contact">Contact</a>
     </div>
     <div class="nav-hamburger" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
       <span></span>
@@ -880,103 +691,108 @@ body {
 
   <main>
 
-    <!-- ─── HERO ─────────────────────────────────────────────── -->
-    <div class="hero-scroll-region" id="heroRegion">
-      <div class="hero-sticky">
-        <div class="hero-canvas-wrap">
-          <canvas id="waterCanvas"></canvas>
+    <!-- ─── WATER PARALLAX REGION ──────────────────────────── -->
+    <div class="water-parallax-region">
+
+      <!-- Layer 0: Sticky water canvas + founders title anchored inside -->
+      <div class="water-sticky" id="waterSection">
+        <canvas class="water-section-canvas" id="waterCanvas"></canvas>
+        <div class="water-shimmer-line"></div>
+        <div class="water-hint" id="waterHint">Touch · Drag</div>
+        <div class="water-founders-intro">
+          <div class="founders-eyebrow">Meet the Founders</div>
+          <div class="founders-rule"></div>
+          <h1 class="founders-title">The <em>Story</em><br>Behind the Wave</h1>
+          <div class="founders-sub">Community &nbsp;·&nbsp; Artivism &nbsp;·&nbsp; Culture</div>
         </div>
-        <div class="hero-dissolve"></div>
-        <div class="hero-hint" id="waterHint">Touch · Drag</div>
-        <div class="hero-text-overlay">
-          <p class="hero-sub-label">Touch the water to feel it move.</p>
-          <div class="hero-rule"></div>
-          <div class="hero-crossfade">
-            <div class="hero-headline" id="heroHeadline">
-              <p>Black Art</p>
-              <p>is <span class="gold">R</span><span class="gold-italic">esistance.</span></p>
+      </div>
+
+      <!-- Layer 1: Bio content scrolls over the water with blue gradient -->
+      <div class="bio-scroll-layer">
+
+        <!-- Blue gradient bridge — transparent → navy -->
+        <div class="bio-scroll-gradient"></div>
+
+        <!-- ─── ABOUT CONTENT ──────────────────────────── -->
+        <div class="about-content">
+          <div class="section-divider fade-up">
+            <div class="section-divider-line"></div>
+            <p class="section-label">About</p>
+          </div>
+
+          <!-- ─── BIO SECTION ──────────────────────────── -->
+          <section class="bio-section">
+            <!-- Left: name + quote -->
+            <div class="bio-name-wrap fade-up">
+              <div>
+                <h2 class="bio-name"><strong>Angelina</strong> <em>Beamon</em></h2>
+                <p class="bio-role">CEO &amp; Founder &nbsp;·&nbsp; "Angie"</p>
+              </div>
+              <blockquote class="bio-quote fade-up">
+                "Putting me and my people on — one wave at a time."
+              </blockquote>
             </div>
-            <div class="hero-about" id="heroAbout">
-              <p>Oshun Waves Production is a Black-led creative production company that curates immersive fashion shows and editorial experiences rooted in artivism, cultural identity, and the belief that Black art is resistance.</p>
+
+            <!-- Right: body copy + tags -->
+            <div class="bio-body-side bio-body-wrap fade-up">
+              <div class="bio-body">
+                <p>
+                  I'm Angelina Beamon, best known as "Angie" — the CEO of Oshun Waves
+                  Production. I'm a Black creative, dancer, and current college graduate
+                  with the dreams of putting me and my people on.
+                </p>
+                <p>
+                  Throughout my journey it first started with me building community at my
+                  college by becoming the President of the Black Student Union as well as
+                  creating the organization. Through the help and collaboration of my
+                  partners Marilyn Carroll and Kaiya Brooks we worked hard to create a
+                  safe space for cultural expression, creativity, and support — which has
+                  furthered my love for community and artivism.
+                </p>
+                <p>
+                  Oshun Waves Production will further my passion and love for creating
+                  by continuing to curate those same spaces on a much larger scale than
+                  ever seen before.
+                </p>
+              </div>
+              <div class="bio-tags">
+                <span class="bio-tag">Dancer</span>
+                <span class="bio-tag">Creative Director</span>
+                <span class="bio-tag">Community Builder</span>
+                <span class="bio-tag">Artivist</span>
+                <span class="bio-tag">BSU Founder</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ─── FOUNDING CIRCLE ────────────────────── -->
+          <div class="collab-section fade-up">
+            <div class="collab-inner">
+              <p class="collab-heading">
+                Built with <em>intention</em><br>and community
+              </p>
+              <p class="collab-sub">The Founding Circle</p>
+              <div class="collab-names">
+                <div class="collab-name-item">
+                  <span class="collab-role-label">CEO</span>
+                  <span class="collab-person-name">Angelina <em>"Angie"</em> Beamon</span>
+                </div>
+                <div class="collab-name-item">
+                  <span class="collab-role-label">Partner</span>
+                  <span class="collab-person-name">Marilyn <em>Carroll</em></span>
+                </div>
+                <div class="collab-name-item">
+                  <span class="collab-role-label">Partner</span>
+                  <span class="collab-person-name">Kaiya <em>Brooks</em></span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- ─── PROJECTS DIVIDER ──────────────────────────────── -->
-    <div class="projects-divider fade-up" id="projects">
-      <div class="projects-divider-line"></div>
-      <p class="projects-label">Projects</p>
-    </div>
+        </div><!-- /.about-content -->
+      </div><!-- /.bio-scroll-layer -->
 
-    <!-- ─── BRAND NEW DAY ─────────────────────────────────── -->
-    <section class="feature-section">
-      <div class="feature-image-wrap bnd-gallery fade-up" data-parallax-image>
-        <img class="feature-img bnd-slide bnd-active" data-parallax="-0.12"
-          src="photos/Cover.jpg" alt="Brand New Day — look 1">
-        <img class="feature-img bnd-slide" data-parallax="-0.12"
-          src="photos/bnd_gallery/_DSC8293.jpeg" alt="Brand New Day — look 2">
-        <img class="feature-img bnd-slide" data-parallax="-0.12"
-          src="photos/bnd_gallery/image 9.jpg" alt="Brand New Day — look 3">
-        <img class="feature-img bnd-slide" data-parallax="-0.12"
-          src="photos/bnd_gallery/image 8.jpg" alt="Brand New Day — look 4">
-        <div class="gallery-dots" aria-hidden="true">
-          <span class="gallery-dot active"></span>
-          <span class="gallery-dot"></span>
-          <span class="gallery-dot"></span>
-          <span class="gallery-dot"></span>
-        </div>
-      </div>
-      <div class="feature-content fade-up">
-        <div class="feature-title-wrap">
-          <h3 class="feature-title"><strong>Brand</strong> <em>New Day</em></h3>
-          <p class="feature-description">Brand New Day united Black Student Union leaders at Daley College, fusing art, activism, and Black culture through fashion.</p>
-        </div>
-        <button class="explore-btn" id="bndLookBookBtn" onclick="window.location.href='lookbook.html'">Explore the Look Book</button>
-      </div>
-    </section>
-
-    <!-- ─── ROOTS TO REVERENCE ────────────────────────────── -->
-    <section class="feature-section feature-alt">
-      <div class="feature-image-wrap fade-up" data-parallax-image>
-        <img class="feature-img img-roots-to-reverence"
-          src="img_roots_to_reverence.jpg"
-          alt="Roots to Reverence — Oshun Waves Production"
-          data-parallax="-0.12">
-      </div>
-      <div class="feature-content fade-up">
-        <div class="feature-title-wrap">
-          <h3 class="feature-title"><strong>Roots to</strong> <em>Reverence</em></h3>
-          <p class="feature-description">Roots to Reverence bridges multicultural spaces through Black expression, exploring themes of Southern Gothic, Western Couture, and Icy Opulence.</p>
-        </div>
-        <button class="explore-btn" onclick="window.location.href='lookbook2.html'">Explore the Look Book</button>
-      </div>
-    </section>
-
-    <!-- ─── HAUS OF VENERATION ────────────────────────────── -->
-    <section class="feature-section">
-      <div class="feature-image-wrap placeholder fade-up">
-        <p class="coming-soon-text">Coming <em>Soon</em></p>
-      </div>
-      <div class="feature-content fade-up">
-        <div class="feature-title-wrap">
-          <h3 class="feature-title"><span class="light">Haus of</span> <em>Veneration</em></h3>
-          <p class="feature-description">Haus of Veneration is an offering to ancestors, liberating Black queer expression through the pioneering legacy of ballroom culture.</p>
-        </div>
-        <button class="explore-btn">Explore the Look Book</button>
-      </div>
-    </section>
-
-    <!-- ─── CTA STRIP ─────────────────────────────────────── -->
-    <div class="cta-strip fade-up" id="contact">
-      <div class="cta-inner">
-        <p class="cta-heading">Stay updated with<br>the <em>latest shows</em></p>
-        <p class="cta-sub">Follow on Instagram</p>
-        <div class="cta-handle">@oshunwaves.prod</div>
-      </div>
-    </div>
-
+    </div><!-- /.water-parallax-region -->
   </main>
 
   <footer class="site-footer">
@@ -986,29 +802,6 @@ body {
 
 </div><!-- /#site -->
 
-<!-- ═══════════════════════════════════════════════════════════ -->
-<!-- MAGAZINE LOOK BOOK MODAL                                    -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-<div id="magOverlay" class="mag-overlay" role="dialog" aria-modal="true" aria-label="Brand New Day Look Book">
-  <div class="mag-bg" aria-hidden="true"></div>
-  <button class="mag-close" id="magClose" aria-label="Close">✕</button>
-  <p class="mag-section-label" id="magLabel">FRONT COVER</p>
-  <div class="mag-book" id="magBook">
-    <div class="mag-page-left" id="magPageLeft">
-      <img id="magImgLeft" src="" alt="">
-    </div>
-    <div class="mag-spine"></div>
-    <div class="mag-page" id="magPage">
-      <img id="magImg" src="" alt="">
-    </div>
-  </div>
-  <div class="mag-nav">
-    <button class="mag-arrow" id="magPrev" aria-label="Previous page">&#8249;</button>
-    <div class="mag-dots" id="magDots"></div>
-    <button class="mag-arrow" id="magNext" aria-label="Next page">&#8250;</button>
-  </div>
-  <p class="mag-hint" id="magHint">TAP OR SWIPE TO TURN</p>
-</div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- INTERACTIVE WATER CANVAS                                    -->
@@ -1161,18 +954,20 @@ body {
   }
   function up() { drag = false; touchIntent = null; }
 
-  var w = canvas.parentElement;
-  w.addEventListener('mousedown',  dn,  { passive: true });
-  w.addEventListener('mousemove',  mv,  { passive: true });
-  w.addEventListener('mouseup',    up);
-  w.addEventListener('touchstart', dn,  { passive: true });
-  w.addEventListener('touchmove',  mv,  { passive: true });
-  w.addEventListener('touchend',   up);
-  w.addEventListener('touchcancel', up);
+  var section = document.getElementById('waterSection');
+  if (section) {
+    section.addEventListener('mousedown',  dn,  { passive: true });
+    section.addEventListener('mousemove',  mv,  { passive: true });
+    section.addEventListener('mouseup',    up);
+    section.addEventListener('touchstart', dn,  { passive: true });
+    section.addEventListener('touchmove',  mv,  { passive: true });
+    section.addEventListener('touchend',   up);
+    section.addEventListener('touchcancel', up);
+  }
 
   resize();
-  setTimeout(function () { splash(cols * 0.3, rows * 0.35, 0.5); }, 200);
-  setTimeout(function () { splash(cols * 0.7, rows * 0.25, 0.4); }, 600);
+  setTimeout(function () { splash(cols * 0.3, rows * 0.35, 0.5);  }, 200);
+  setTimeout(function () { splash(cols * 0.7, rows * 0.25, 0.4);  }, 600);
   setTimeout(function () { splash(cols * 0.5, rows * 0.55, 0.35); }, 1100);
   loop();
   var lastW = window.innerWidth, lastH = window.innerHeight;
@@ -1186,75 +981,11 @@ body {
 </script>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- SCROLL PARALLAX + HERO CROSSFADE + FADE-UP                 -->
+<!-- SCROLL FADE-UP + NAV SCROLL BEHAVIOR                        -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 <script>
 (function () {
-  var heroRegion   = document.getElementById('heroRegion');
-  var heroHeadline = document.getElementById('heroHeadline');
-  var heroAbout    = document.getElementById('heroAbout');
-
-  function updateHero() {
-    if (!heroRegion || !heroHeadline || !heroAbout) return;
-    var scrollY   = window.scrollY;
-    var regionTop = heroRegion.offsetTop;
-    var regionH   = heroRegion.offsetHeight;
-    var viewH     = window.innerHeight;
-    var scrollable = regionH - viewH;
-    var progress   = scrollable > 0
-      ? Math.max(0, Math.min(1, (scrollY - regionTop) / scrollable)) : 0;
-    heroHeadline.style.opacity = Math.max(0, 1 - progress / 0.55).toFixed(3);
-    heroAbout.style.opacity    = Math.max(0, (progress - 0.45) / 0.55).toFixed(3);
-  }
-
-  var parallaxImages = document.querySelectorAll('[data-parallax]');
-  function updateImageParallax() {
-    var scrollY = window.scrollY, viewH = window.innerHeight;
-    parallaxImages.forEach(function (img) {
-      var speed  = parseFloat(img.getAttribute('data-parallax')) || -0.12;
-      var wrap   = img.closest('.feature-image-wrap');
-      if (!wrap) return;
-      var rect = wrap.getBoundingClientRect();
-      var wrapTop = rect.top + scrollY, wrapH = wrap.offsetHeight;
-      var wrapCenter = wrapTop + wrapH / 2, viewCenter = scrollY + viewH / 2;
-      img.style.transform = 'translateY(' + ((wrapCenter - viewCenter) * speed).toFixed(2) + 'px)';
-    });
-  }
-
-  var featureSections = document.querySelectorAll('.feature-section');
-  function updateSectionParallax() {
-    var scrollY = window.scrollY, viewH = window.innerHeight;
-    featureSections.forEach(function (sec) {
-      var rect = sec.getBoundingClientRect();
-      var secCenter  = rect.top + scrollY + sec.offsetHeight / 2;
-      var viewCenter = scrollY + viewH / 2;
-      sec.style.backgroundPositionY = ((secCenter - viewCenter) * 0.04).toFixed(1) + 'px';
-    });
-  }
-
-  var ctaInner = document.querySelector('.cta-inner');
-  function updateCTAParallax() {
-    if (!ctaInner) return;
-    var scrollY = window.scrollY, viewH = window.innerHeight;
-    var rect = ctaInner.getBoundingClientRect();
-    var ctaCenter  = rect.top + scrollY + rect.height / 2;
-    var viewCenter = scrollY + viewH / 2;
-    ctaInner.style.transform = 'translateY(' + ((ctaCenter - viewCenter) * 0.05).toFixed(2) + 'px)';
-  }
-
-  var ticking = false;
-  function onScroll() {
-    if (!ticking) {
-      requestAnimationFrame(function () {
-        updateHero(); updateImageParallax(); updateSectionParallax(); updateCTAParallax();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  updateHero(); updateImageParallax();
-
+  // Fade-up on scroll
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
@@ -1269,21 +1000,24 @@ body {
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.fade-up').forEach(function (el) { io.observe(el); });
 
+  // Nav darkens on scroll
   var siteNav = document.querySelector('.site-nav');
-  var lastScrollY = 0;
   window.addEventListener('scroll', function () {
-    var scrollY = window.scrollY;
-    lastScrollY = scrollY;
-    if (siteNav) siteNav.style.background = scrollY > 80 ? 'rgba(4,13,30,0.99)' : 'rgba(4,13,30,0.97)';
+    if (siteNav) siteNav.style.background =
+      window.scrollY > 80 ? 'rgba(4,13,30,0.99)' : 'rgba(4,13,30,0.97)';
   }, { passive: true });
 
+  // Footer fade-in
   var footer = document.querySelector('.site-footer');
   if (footer) {
     footer.style.opacity = '0'; footer.style.transform = 'translateY(16px)';
     footer.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
     var footerIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) { footer.style.opacity = '1'; footer.style.transform = 'translateY(0)'; footerIO.disconnect(); }
+        if (e.isIntersecting) {
+          footer.style.opacity = '1'; footer.style.transform = 'translateY(0)';
+          footerIO.disconnect();
+        }
       });
     }, { threshold: 0.3 });
     footerIO.observe(footer);
@@ -1292,231 +1026,21 @@ body {
 </script>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- BRAND NEW DAY DWELL GALLERY                                 -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-<script>
-(function () {
-  var wrap   = document.querySelector('.bnd-gallery');
-  if (!wrap) return;
-  var slides = Array.from(wrap.querySelectorAll('.bnd-slide'));
-  var dots   = Array.from(wrap.querySelectorAll('.gallery-dot'));
-  var cur = 0, timer = null;
-  function show(n) {
-    slides[cur].classList.remove('bnd-active');
-    dots[cur] && dots[cur].classList.remove('active');
-    cur = (n + slides.length) % slides.length;
-    slides[cur].classList.add('bnd-active');
-    dots[cur] && dots[cur].classList.add('active');
-  }
-  function start() { if (!timer) timer = setInterval(function () { show(cur + 1); }, 2500); }
-  function stop()  { clearInterval(timer); timer = null; }
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (entries) {
-      entries[0].isIntersecting ? start() : stop();
-    }, { threshold: 0.4 }).observe(wrap);
-  } else { start(); }
-})();
-</script>
-
-<!-- ═══════════════════════════════════════════════════════════ -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-<!-- MAGAZINE FLIP ENGINE                                         -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-<script>
-(function () {
-  var PAGES = [
-    { src: 'photos/Cover.jpg',                   label: 'FRONT COVER', cover: true },
-    { src: 'photos/bnd_gallery/_DSC7439.jpeg',   label: 'PAGE 01' },
-    { src: 'photos/bnd_gallery/_DSC8293.jpeg',   label: 'PAGE 02' },
-    { src: 'photos/bnd_gallery/image 3.jpg',     label: 'PAGE 03' },
-    { src: 'photos/bnd_gallery/image 4.jpg',     label: 'PAGE 04' },
-    { src: 'photos/bnd_gallery/image 5.jpg',     label: 'PAGE 05' },
-    { src: 'photos/bnd_gallery/image 6.jpg',     label: 'PAGE 06' },
-    { src: 'photos/bnd_gallery/image 8.jpg',     label: 'PAGE 07' },
-    { src: 'photos/bnd_gallery/image 9.jpg',     label: 'PAGE 08' }
-  ];
-
-  var SPREADS = [
-    [null, 0],
-    [1, 2], [3, 4], [5, 6], [7, 8]
-  ];
-
-  var overlay  = document.getElementById('magOverlay');
-  var page     = document.getElementById('magPage');
-  var img      = document.getElementById('magImg');
-  var pageLeft = document.getElementById('magPageLeft');
-  var imgLeft  = document.getElementById('magImgLeft');
-  var label    = document.getElementById('magLabel');
-  var dotsEl   = document.getElementById('magDots');
-  var hint     = document.getElementById('magHint');
-  var prevBtn  = document.getElementById('magPrev');
-  var nextBtn  = document.getElementById('magNext');
-  var book     = document.getElementById('magBook');
-  var cur = 0, busy = false;
-
-  function spread() { return window.innerWidth >= 768; }
-  function total()  { return spread() ? SPREADS.length : PAGES.length; }
-
-  function buildDots() {
-    dotsEl.innerHTML = '';
-    for (var i = 0; i < total(); i++) {
-      (function (idx) {
-        var d = document.createElement('span');
-        d.className = 'mag-dot' + (idx === 0 ? ' active' : '');
-        d.addEventListener('click', function () { go(idx); });
-        dotsEl.appendChild(d);
-      })(i);
-    }
-  }
-
-  function syncUI() {
-    var rIdx = spread() ? SPREADS[cur][1] : cur;
-    if (label) label.textContent = PAGES[rIdx].label;
-    hint.style.opacity = cur === 0 ? '1' : '0';
-    prevBtn.disabled = cur === 0;
-    nextBtn.disabled = cur === total() - 1;
-    dotsEl.querySelectorAll('.mag-dot').forEach(function (d, i) {
-      d.classList.toggle('active', i === cur);
-    });
-    if (book) book.classList.toggle('spread-open', spread() && cur > 0);
-  }
-
-  function renderRight(idx) {
-    /* Remove everything except the img */
-    Array.from(page.children).forEach(function (c) { if (c !== img) c.remove(); });
-    img.src = PAGES[idx].src;
-    img.alt = PAGES[idx].label;
-    /* Gradient scrim on every page */
-    var grad = document.createElement('div');
-    grad.className = 'mag-page-grad';
-    page.appendChild(grad);
-    if (PAGES[idx].cover) {
-      var ct = document.createElement('div');
-      ct.className = 'mag-cover-text';
-      ct.setAttribute('container-type', 'inline-size');
-      ct.innerHTML =
-        '<div class="mag-cover-issue">Issue No. 01</div>' +
-        '<div class="mag-cover-title"><strong>Brand</strong> <em>New Day</em></div>' +
-        '<div class="mag-cover-rule"></div>' +
-        '<div class="mag-cover-sub">Black Student Union Leaders fusing art,<br>activism, and Black culture</div>' +
-        '<div class="mag-cover-season">Spring / Summer 2026</div>';
-      page.appendChild(ct);
-    }
-  }
-
-  function renderLeft(idx) {
-    if (!spread()) return;
-    if (idx === null) {
-      imgLeft.style.display = 'none';
-    } else {
-      imgLeft.style.display = '';
-      imgLeft.src = PAGES[idx].src;
-      imgLeft.alt = PAGES[idx].label;
-    }
-  }
-
-  function renderCurrent() {
-    if (spread()) {
-      renderLeft(SPREADS[cur][0]);
-      renderRight(SPREADS[cur][1]);
-    } else {
-      renderRight(cur);
-    }
-  }
-
-  function go(next) {
-    if (busy || next === cur || next < 0 || next >= total()) return;
-    busy = true;
-    var forward = next > cur;
-    var outAnim = forward ? 'magOut' : 'magOutR';
-    var inAnim  = forward ? 'magIn'  : 'magInR';
-
-    page.style.transformOrigin = forward ? 'left center' : 'right center';
-    page.style.animation = outAnim + ' 0.36s cubic-bezier(0.55,0,1,0.45) forwards';
-
-    if (spread()) {
-      setTimeout(function () {
-        pageLeft.style.opacity = '0';
-        setTimeout(function () {
-          renderLeft(SPREADS[next][0]);
-          pageLeft.style.opacity = '1';
-        }, 360);
-      }, 180);
-    }
-
-    function onOut() {
-      page.removeEventListener('animationend', onOut);
-      cur = next;
-      renderRight(spread() ? SPREADS[cur][1] : cur);
-      syncUI();
-      page.style.transformOrigin = forward ? 'left center' : 'right center';
-      page.style.animation = 'none';
-      page.offsetWidth; /* reflow */
-      page.style.animation = inAnim + ' 0.36s cubic-bezier(0,0.55,0.45,1) forwards';
-      function onIn() {
-        page.removeEventListener('animationend', onIn);
-        page.style.animation = '';
-        busy = false;
-      }
-      page.addEventListener('animationend', onIn);
-    }
-    page.addEventListener('animationend', onOut);
-  }
-
-  prevBtn.addEventListener('click', function () { go(cur - 1); });
-  nextBtn.addEventListener('click', function () { go(cur + 1); });
-
-  var tx = null;
-  overlay.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
-  overlay.addEventListener('touchend', function (e) {
-    if (tx === null) return;
-    var dx = e.changedTouches[0].clientX - tx; tx = null;
-    if (Math.abs(dx) > 40) go(dx < 0 ? cur + 1 : cur - 1);
-  }, { passive: true });
-
-  document.addEventListener('keydown', function (e) {
-    if (!overlay.classList.contains('open')) return;
-    if (e.key === 'ArrowRight') go(cur + 1);
-    if (e.key === 'ArrowLeft')  go(cur - 1);
-  });
-
-  function open() {
-    cur = 0;
-    buildDots();
-    renderCurrent();
-    syncUI();
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function close() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('magClose').addEventListener('click', close);
-  overlay.addEventListener('click', function (e) {
-    if (e.target === overlay || e.target.classList.contains('mag-bg')) close();
-  });
-
-  /* bndLookBookBtn now navigates to lookbook.html directly */
-})();
-</script>
-
-<!-- MENU OPEN / CLOSE                                           -->
+<!-- MENU OPEN / CLOSE                                            -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 <script>
 function openMenu() {
   var m = document.getElementById('siteMenu');
   var o = document.getElementById('menuOverlay');
-  if (m) { m.classList.add('open'); m.setAttribute('aria-hidden', 'false'); }
-  if (o) { o.classList.add('active'); }
+  if (m) { m.classList.add('open'); m.setAttribute('aria-hidden','false'); }
+  if (o) o.classList.add('active');
   document.body.style.overflow = 'hidden';
 }
 function closeMenu() {
   var m = document.getElementById('siteMenu');
   var o = document.getElementById('menuOverlay');
-  if (m) { m.classList.remove('open'); m.setAttribute('aria-hidden', 'true'); }
-  if (o) { o.classList.remove('active'); }
+  if (m) { m.classList.remove('open'); m.setAttribute('aria-hidden','true'); }
+  if (o) o.classList.remove('active');
   document.body.style.overflow = '';
 }
 </script>
