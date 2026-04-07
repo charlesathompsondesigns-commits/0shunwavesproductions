@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oshun Waves — About</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Jost:wght@200;300;400;500&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+
+/* ─── CSS CUSTOM PROPERTIES ─────────────────────────────────── */
+:root {
+  --nav-h: 62px;
+  --pad-x: 16px;
+  --content-max: 1200px;
+}
+@media (min-width: 480px)  { :root { --pad-x: 24px; } }
+@media (min-width: 768px)  { :root { --pad-x: 40px; } }
+@media (min-width: 1024px) { :root { --nav-h: 72px; --pad-x: 60px; } }
+@media (min-width: 1280px) { :root { --pad-x: max(60px, calc((100vw - var(--content-max)) / 2)); } }
+
+/* ─── RESET ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: auto; }
+body {
+  background: #040D1E;
+  color: #F5EDD8;
+  overflow-x: hidden;
+  font-family: 'Jost', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── SITE WRAPPER ───────────────────────────────────────────── */
+#site {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── NAV (exact v4) ─────────────────────────────────────────── */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  width: 100%;
+  height: var(--nav-h);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad-x);
+  background: rgba(4,13,30,0.97);
+  border-bottom: 1px solid rgba(196,154,53,0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.nav-logo {
+  text-decoration: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(14px, 2vw, 18px);
+  color: #C49A35;
+  letter-spacing: 1.4px;
+  white-space: nowrap;
+}
+.nav-desktop-links {
+  display: none;
+  gap: 40px;
+  align-items: center;
+}
+.nav-desktop-links a {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245,237,216,0.55);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+.nav-desktop-links a:hover  { color: #C49A35; }
+.nav-desktop-links a.active { color: #C49A35; }
+.nav-hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  cursor: pointer;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  height: 1px;
+  background: #C49A35;
+  transition: width 0.3s;
+}
+.nav-hamburger span:nth-child(1) { width: 18px; }
+.nav-hamburger span:nth-child(2) { width: 11px; }
+.nav-hamburger span:nth-child(3) { width: 18px; }
+
+/* Nav gold shimmer line */
+@keyframes gold-shimmer {
+  0%,100% { opacity: 0.18; }
+  50%      { opacity: 0.35; }
+}
+.site-nav::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #C49A35 25%, rgba(196,154,53,0.5) 60%, transparent 100%);
+  animation: gold-shimmer 3.5s ease-in-out infinite;
+}
+
+/* ─── MENU OVERLAY ────────────────────────────────────────────── */
+#menuOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+#menuOverlay.active { display: block; }
+
+/* ─── SLIDE-IN MENU ───────────────────────────────────────────── */
+.site-menu {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(100vw, 420px);
+  z-index: 200;
+  background: #040D1E;
+  transform: translateX(100%);
+  transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.site-menu.open { transform: translateX(0); }
+.menu-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(196,154,53,0.12);
+  height: var(--nav-h);
+  flex-shrink: 0;
+}
+.menu-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 14px;
+  color: #C49A35;
+  letter-spacing: 1.4px;
+}
+.menu-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #C49A35;
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px;
+}
+.menu-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+.menu-link {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 28px;
+  color: #F5EDD8;
+  text-decoration: none;
+  padding: 12px 0;
+  display: block;
+  text-align: center;
+  transition: color 0.2s;
+  letter-spacing: 0.01em;
+}
+.menu-link:hover { color: #C49A35; }
+.menu-divider {
+  width: 32px;
+  height: 1px;
+  background: rgba(196,154,53,0.25);
+  margin: 12px auto 0;
+}
+.menu-cta {
+  padding: 14px 16px 6px;
+  text-align: center;
+  border-top: 1px solid rgba(196,154,53,0.15);
+}
+.menu-cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 14px;
+  color: #F5EDD8;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+.menu-ig {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 16px 16px;
+}
+.menu-ig-label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 9px;
+  color: rgba(245,237,216,0.65);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+.menu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px 20px;
+  border-top: 1px solid rgba(196,154,53,0.12);
+}
+.menu-footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: #C49A35;
+}
+.menu-footer-link {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 8px;
+  color: rgba(245,237,216,0.45);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+
+/* ─── WATER PARALLAX REGION ──────────────────────────────────── */
+.water-parallax-region {
+  position: relative;
+  margin-top: var(--nav-h);
+}
+
+/* Sticky water — fills viewport, stays fixed while bio scrolls over */
+.water-sticky {
+  position: sticky;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  z-index: 0;
+  overflow: hidden;
+  cursor: crosshair;
+}
+.water-section-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* Gold shimmer line — matches v4 hero-sticky::before (z-index 4, height 2px) */
+.water-shimmer-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #C49A35 25%, rgba(196,154,53,0.5) 60%, transparent 100%);
+  animation: gold-shimmer 3.5s ease-in-out infinite;
+  z-index: 4;
+  pointer-events: none;
+}
+.water-hint {
+  position: absolute;
+  top: 18px;
+  right: var(--pad-x);
+  z-index: 5;
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+  font-size: clamp(9px, 1.1vw, 11px);
+  color: rgba(196,154,53,0.55);
+  letter-spacing: 2.25px;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity 0.6s;
+  white-space: nowrap;
+}
+/* Bottom dark gradient — matches v4 hero-sticky::after exactly */
+.water-sticky::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 45%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    0deg,
+    rgba(4,13,30,0.92) 0%,
+    rgba(4,13,30,0.60) 40%,
+    rgba(4,13,30,0.15) 75%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+/* Founders title — anchored inside sticky water canvas, scrolled over by bio */
+.water-founders-intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 var(--pad-x);
+  pointer-events: none;
+  z-index: 1;
+}
+.founders-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: clamp(9px, 1.1vw, 11px);
+  color: rgba(196,154,53,0.72);
+  letter-spacing: 3.96px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.founders-rule {
+  width: 32px;
+  height: 1px;
+  background: rgba(196,154,53,0.5);
+  margin-bottom: 20px;
+}
+.founders-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(28px, 9.07vw, 36px);
+  color: #F5EDD8;
+  line-height: 1.05;
+  letter-spacing: 0.34px;
+}
+.founders-title em { font-style: italic; color: #C49A35; font-weight: 400; }
+@media (min-width: 768px)  { .founders-title { font-size: clamp(36px, 6vw, 60px);   line-height: 1.0; } }
+@media (min-width: 1024px) { .founders-title { font-size: clamp(52px, 5.5vw, 80px); line-height: 1.0; } }
+@media (min-width: 1280px) { .founders-title { font-size: clamp(64px, 5.2vw, 96px); } }
+@media (min-width: 1536px) { .founders-title { font-size: clamp(72px, 5vw, 108px);  } }
+.founders-sub {
+  margin-top: 20px;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: clamp(9px, 1.1vw, 12px);
+  letter-spacing: 0.27px;
+  color: rgba(245,237,216,0.75);
+  line-height: 1.65;
+}
+
+/* Bio layer scrolls over the sticky water */
+.bio-scroll-layer {
+  position: relative;
+  z-index: 1;
+  margin-top: -50vh; /* pulls content up so it overlaps the water */
+}
+
+/* Blue gradient — the "bridge" between water and solid content */
+.bio-scroll-gradient {
+  height: 60vh;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(4, 18, 50, 0.55) 30%,
+    rgba(4, 13, 30, 0.88) 65%,
+    #040D1E 100%
+  );
+  pointer-events: none;
+}
+
+/* ─── ABOUT CONTENT ──────────────────────────────────────────── */
+.about-content {
+  background: #040D1E;
+  background-image:
+    radial-gradient(ellipse 55% 35% at 18% 25%, rgba(30,90,120,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 82% 65%, rgba(30,90,120,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 20% at 60% 20%, rgba(196,154,53,0.03) 0%, transparent 50%);
+}
+
+/* Projects-style divider label */
+.section-divider {
+  width: 100%;
+  padding: 0 var(--pad-x) 24px;
+  background: #040D1E;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.section-divider.visible { opacity: 1; transform: translateY(0); }
+.section-divider-line {
+  height: 1px;
+  width: 100%;
+  background: rgba(196,154,53,0.1);
+  margin-bottom: 20px;
+}
+.section-label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: clamp(9px, 1vw, 11px);
+  color: rgba(196,154,53,0.72);
+  letter-spacing: 3.96px;
+  text-transform: uppercase;
+}
+
+/* Bio grid — mirrors feature-section layout from v4 */
+.bio-section {
+  width: 100%;
+  background: #040D1E;
+  padding: clamp(48px, 7vw, 100px) var(--pad-x);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 48px);
+  align-items: center;
+  position: relative;
+}
+.bio-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 50% at 20% 30%, rgba(30,58,90,0.04) 0%, transparent 70%);
+}
+
+/* Name block — styled like feature-title-wrap */
+.bio-name-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease 0.15s, transform 0.8s ease 0.15s;
+}
+.bio-name-wrap.visible { opacity: 1; transform: translateY(0); }
+.bio-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 6vw, 72px);
+  color: #F5EDD8;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.bio-name em     { font-style: italic; color: #C49A35; font-weight: 300; }
+.bio-name strong { font-weight: 700; }
+.bio-role {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: clamp(9px, 1vw, 11px);
+  color: rgba(196,154,53,0.72);
+  letter-spacing: 3.96px;
+  text-transform: uppercase;
+}
+
+/* Pull quote */
+.bio-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(18px, 2.6vw, 28px);
+  color: #F5EDD8;
+  line-height: 1.35;
+  padding-left: clamp(16px, 3vw, 28px);
+  border-left: 2px solid rgba(196,154,53,0.4);
+  max-width: 560px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
+}
+.bio-quote.visible { opacity: 1; transform: translateY(0); }
+
+/* Body copy — matches feature-description */
+.bio-body-wrap {
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease 0.15s, transform 0.8s ease 0.15s;
+}
+.bio-body-wrap.visible { opacity: 1; transform: translateY(0); }
+.bio-body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: clamp(15px, 1.5vw, 18px);
+  color: rgba(245,237,216,0.85);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  max-width: 640px;
+}
+.bio-body p + p { margin-top: 22px; }
+
+/* Tags */
+.bio-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+.bio-tag {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #C49A35;
+  border: 1px solid rgba(196,154,53,0.28);
+  padding: 7px 18px;
+  border-radius: 2px;
+}
+
+/* ─── FOUNDING CIRCLE ────────────────────────────────────────── */
+.collab-section {
+  width: 100%;
+  padding: clamp(24px, 4vw, 64px) var(--pad-x);
+  background: #040D1E;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.collab-section.visible { opacity: 1; transform: translateY(0); }
+.collab-inner {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  border-radius: 4px;
+  border: 1px solid rgba(196,154,53,0.18);
+  background: rgba(196,154,53,0.03);
+  padding: clamp(24px, 3vw, 48px) clamp(16px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 24px);
+}
+.collab-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(16px, 2vw, 22px);
+  color: #F5EDD8;
+  line-height: 1.3;
+  text-align: center;
+}
+.collab-heading em { font-style: italic; color: #C49A35; }
+.collab-sub {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: clamp(9px, 1vw, 11px);
+  color: rgba(245,237,216,0.62);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.collab-names {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid rgba(196,154,53,0.12);
+  padding-top: clamp(16px, 2vw, 24px);
+}
+.collab-name-item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(196,154,53,0.07);
+}
+.collab-name-item:last-child { border-bottom: none; }
+.collab-role-label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(196,154,53,0.65);
+  white-space: nowrap;
+  min-width: 72px;
+}
+.collab-person-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: #F5EDD8;
+}
+.collab-person-name em { font-style: italic; color: #C49A35; }
+
+/* ─── FOOTER (exact v4) ───────────────────────────────────────── */
+.site-footer {
+  width: 100%;
+  height: clamp(62px, 8vw, 80px);
+  background: #040D1E;
+  border-top: 1px solid rgba(196,154,53,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad-x);
+  flex-shrink: 0;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(12px, 1.5vw, 16px);
+  color: #C49A35;
+  letter-spacing: 1.2px;
+  white-space: nowrap;
+}
+.footer-links {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: clamp(9px, 1vw, 11px);
+  color: rgba(245,237,216,0.55);
+  letter-spacing: 1.08px;
+  white-space: nowrap;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .bio-section {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: clamp(48px, 5vw, 80px);
+  }
+  .bio-name-wrap { width: 44%; flex-shrink: 0; }
+  .bio-body-side { width: 56%; }
+}
+@media (min-width: 1024px) {
+  .nav-desktop-links { display: flex; }
+  .nav-hamburger     { display: none; }
+  .site-footer { height: 72px; }
+  .footer-logo  { font-size: 16px; }
+  .footer-links { font-size: 11px; letter-spacing: 1.5px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── MENU OVERLAY ──────────────────────────────────────────── -->
+<div id="menuOverlay" onclick="closeMenu()"></div>
+
+<!-- ─── SLIDE-IN MENU ─────────────────────────────────────────── -->
+<div id="siteMenu" class="site-menu" aria-hidden="true">
+  <div class="menu-head">
+    <div class="menu-logo">Oshun <em>Waves</em></div>
+    <button class="menu-close" onclick="closeMenu()" aria-label="Close menu">✕</button>
+  </div>
+  <div class="menu-links">
+    <a href="index.html" class="menu-link" onclick="closeMenu()">Home</a>
+    <a href="about.html" class="menu-link" onclick="closeMenu()">About</a>
+    <a href="index.html#contact" class="menu-link" onclick="closeMenu()">Contact</a>
+    <div class="menu-divider"></div>
+  </div>
+  <div class="menu-cta">
+    <div class="menu-cta-title">Ready to pour something<br>sacred into the world?</div>
+  </div>
+  <div class="menu-ig">
+    <span class="menu-ig-label">hello@oshunwaves.com</span>
+  </div>
+  <div class="menu-footer">
+    <span class="menu-footer-logo">Oshun Waves</span>
+    <a href="index.html#contact" class="menu-footer-link">Contact</a>
+    <span class="menu-footer-link">© 2026</span>
+  </div>
+</div>
+
+<!-- ─── SITE ───────────────────────────────────────────────────── -->
+<div id="site">
+
+  <!-- NAV -->
+  <nav class="site-nav">
+    <a href="index.html" class="nav-logo">Oshun <em>Waves</em></a>
+    <div class="nav-desktop-links">
+      <a href="index.html">Home</a>
+      <a href="about.html" class="active">About</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <div class="nav-hamburger" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ─── WATER PARALLAX REGION ──────────────────────────── -->
+    <div class="water-parallax-region">
+
+      <!-- Layer 0: Sticky water canvas + founders title anchored inside -->
+      <div class="water-sticky" id="waterSection">
+        <canvas class="water-section-canvas" id="waterCanvas"></canvas>
+        <div class="water-shimmer-line"></div>
+        <div class="water-hint" id="waterHint">Touch · Drag</div>
+        <div class="water-founders-intro">
+          <div class="founders-eyebrow">Meet the Founders</div>
+          <div class="founders-rule"></div>
+          <h1 class="founders-title">The <em>Story</em><br>Behind the Wave</h1>
+          <div class="founders-sub">Community &nbsp;·&nbsp; Artivism &nbsp;·&nbsp; Culture</div>
+        </div>
+      </div>
+
+      <!-- Layer 1: Bio content scrolls over the water with blue gradient -->
+      <div class="bio-scroll-layer">
+
+        <!-- Blue gradient bridge — transparent → navy -->
+        <div class="bio-scroll-gradient"></div>
+
+        <!-- ─── ABOUT CONTENT ──────────────────────────── -->
+        <div class="about-content">
+          <div class="section-divider fade-up">
+            <div class="section-divider-line"></div>
+            <p class="section-label">About</p>
+          </div>
+
+          <!-- ─── BIO SECTION ──────────────────────────── -->
+          <section class="bio-section">
+            <!-- Left: name + quote -->
+            <div class="bio-name-wrap fade-up">
+              <div>
+                <h2 class="bio-name"><strong>Angelina</strong> <em>Beamon</em></h2>
+                <p class="bio-role">CEO &amp; Founder &nbsp;·&nbsp; "Angie"</p>
+              </div>
+              <blockquote class="bio-quote fade-up">
+                "Putting me and my people on — one wave at a time."
+              </blockquote>
+            </div>
+
+            <!-- Right: body copy + tags -->
+            <div class="bio-body-side bio-body-wrap fade-up">
+              <div class="bio-body">
+                <p>
+                  I'm Angelina Beamon, best known as "Angie" — the CEO of Oshun Waves
+                  Production. I'm a Black creative, dancer, and current college graduate
+                  with the dreams of putting me and my people on.
+                </p>
+                <p>
+                  Throughout my journey it first started with me building community at my
+                  college by becoming the President of the Black Student Union as well as
+                  creating the organization. Through the help and collaboration of my
+                  partners Marilyn Carroll and Kaiya Brooks we worked hard to create a
+                  safe space for cultural expression, creativity, and support — which has
+                  furthered my love for community and artivism.
+                </p>
+                <p>
+                  Oshun Waves Production will further my passion and love for creating
+                  by continuing to curate those same spaces on a much larger scale than
+                  ever seen before.
+                </p>
+              </div>
+              <div class="bio-tags">
+                <span class="bio-tag">Dancer</span>
+                <span class="bio-tag">Creative Director</span>
+                <span class="bio-tag">Community Builder</span>
+                <span class="bio-tag">Artivist</span>
+                <span class="bio-tag">BSU Founder</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ─── FOUNDING CIRCLE ────────────────────── -->
+          <div class="collab-section fade-up">
+            <div class="collab-inner">
+              <p class="collab-heading">
+                Built with <em>intention</em><br>and community
+              </p>
+              <p class="collab-sub">The Founding Circle</p>
+              <div class="collab-names">
+                <div class="collab-name-item">
+                  <span class="collab-role-label">CEO</span>
+                  <span class="collab-person-name">Angelina <em>"Angie"</em> Beamon</span>
+                </div>
+                <div class="collab-name-item">
+                  <span class="collab-role-label">Partner</span>
+                  <span class="collab-person-name">Marilyn <em>Carroll</em></span>
+                </div>
+                <div class="collab-name-item">
+                  <span class="collab-role-label">Partner</span>
+                  <span class="collab-person-name">Kaiya <em>Brooks</em></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.about-content -->
+      </div><!-- /.bio-scroll-layer -->
+
+    </div><!-- /.water-parallax-region -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-logo">Oshun Waves</div>
+    <div class="footer-links">Contact &nbsp;·&nbsp; Instagram</div>
+  </footer>
+
+</div><!-- /#site -->
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- INTERACTIVE WATER CANVAS                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  var canvas = document.getElementById('waterCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W, H, cols, rows, buf0, buf1, imageData, animId;
+
+  var PALETTE = [
+    { stop: 0.00, r: 4,   g: 18,  b: 38  },
+    { stop: 0.18, r: 8,   g: 32,  b: 55  },
+    { stop: 0.32, r: 16,  g: 50,  b: 72  },
+    { stop: 0.45, r: 45,  g: 60,  b: 75  },
+    { stop: 0.55, r: 90,  g: 62,  b: 22  },
+    { stop: 0.65, r: 139, g: 105, b: 20  },
+    { stop: 0.75, r: 196, g: 154, b: 53  },
+    { stop: 0.85, r: 220, g: 180, b: 100 },
+    { stop: 0.92, r: 235, g: 210, b: 160 },
+    { stop: 1.00, r: 245, g: 237, b: 216 }
+  ];
+
+  function samplePalette(t) {
+    t = Math.max(0, Math.min(1, t));
+    for (var i = 1; i < PALETTE.length; i++) {
+      if (t <= PALETTE[i].stop) {
+        var p = PALETTE[i - 1], c = PALETTE[i];
+        var f = (t - p.stop) / (c.stop - p.stop);
+        return [
+          (p.r + (c.r - p.r) * f) | 0,
+          (p.g + (c.g - p.g) * f) | 0,
+          (p.b + (c.b - p.b) * f) | 0
+        ];
+      }
+    }
+    return [245, 237, 216];
+  }
+
+  function resize() {
+    var nav = document.querySelector('.site-nav');
+    W = Math.round(window.innerWidth);
+    H = Math.round(window.innerHeight - (nav ? nav.offsetHeight : 0));
+    cols = Math.round(W / 2);
+    rows = Math.round(H / 2);
+    canvas.width  = cols;
+    canvas.height = rows;
+    buf0 = new Float32Array(cols * rows);
+    buf1 = new Float32Array(cols * rows);
+    imageData = ctx.createImageData(cols, rows);
+    renderFrame();
+  }
+
+  function splash(gx, gy, s) {
+    gx = Math.round(gx); gy = Math.round(gy);
+    for (var dy = -5; dy <= 5; dy++) {
+      for (var dx = -5; dx <= 5; dx++) {
+        var nx = gx + dx, ny = gy + dy;
+        if (nx < 0 || nx >= cols || ny < 0 || ny >= rows) continue;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d <= 5) buf0[ny * cols + nx] = s * (1 - d / 5);
+      }
+    }
+  }
+
+  function step() {
+    for (var y = 1; y < rows - 1; y++) {
+      for (var x = 1; x < cols - 1; x++) {
+        var i = y * cols + x;
+        buf1[i] = (buf0[i - 1] + buf0[i + 1] + buf0[i - cols] + buf0[i + cols]) / 2 - buf1[i];
+        buf1[i] *= 0.993;
+      }
+    }
+    var t = buf0; buf0 = buf1; buf1 = t;
+  }
+
+  function renderFrame() {
+    var d = imageData.data;
+    for (var y = 0; y < rows; y++) {
+      for (var x = 0; x < cols; x++) {
+        var i = y * cols + x;
+        var h = buf0[i];
+        var t = Math.max(0, Math.min(1, (1 - (y / rows) * 0.6) + h * 0.55));
+        var rgb = samplePalette(t);
+        var s = Math.max(0, h) * 0.72;
+        var pi = i * 4;
+        d[pi]     = Math.min(255, (rgb[0] + s * 90)  | 0);
+        d[pi + 1] = Math.min(255, (rgb[1] + s * 72)  | 0);
+        d[pi + 2] = Math.min(255, (rgb[2] + s * 40)  | 0);
+        d[pi + 3] = 255;
+      }
+    }
+    ctx.putImageData(imageData, 0, 0);
+  }
+
+  var aT = 0;
+  function ambient() {
+    aT++;
+    if (aT % 90 === 0)
+      splash(Math.random() * cols, Math.random() * rows * 0.6, 0.14 + Math.random() * 0.1);
+    if (aT % 36 === 0) {
+      var gy = Math.round(aT / 36 % rows);
+      for (var gx = 0; gx < cols; gx += 3 + Math.random() * 4)
+        if (gy < rows) buf0[gy * cols + Math.round(gx)] += 0.03 * Math.random();
+    }
+  }
+
+  function loop() {
+    step(); ambient(); renderFrame();
+    animId = requestAnimationFrame(loop);
+  }
+
+  function getPos(e) {
+    var r = canvas.getBoundingClientRect();
+    var sx = cols / r.width, sy = rows / r.height;
+    var s = e.touches ? e.touches[0] : e;
+    return [(s.clientX - r.left) * sx, (s.clientY - r.top) * sy];
+  }
+
+  var drag = false;
+  var hint = document.getElementById('waterHint');
+  function dn(e) {
+    drag = true;
+    if (hint) hint.style.opacity = '0';
+    var p = getPos(e); splash(p[0], p[1], 0.85);
+    e.preventDefault();
+  }
+  function mv(e) {
+    if (!drag) return;
+    var p = getPos(e); splash(p[0], p[1], 0.45);
+    e.preventDefault();
+  }
+
+  var section = document.getElementById('waterSection');
+  if (section) {
+    section.addEventListener('mousedown',  dn,  { passive: false });
+    section.addEventListener('mousemove',  mv,  { passive: false });
+    section.addEventListener('mouseup',    function () { drag = false; });
+    section.addEventListener('touchstart', dn,  { passive: false });
+    section.addEventListener('touchmove',  mv,  { passive: false });
+    section.addEventListener('touchend',   function () { drag = false; });
+  }
+
+  resize();
+  setTimeout(function () { splash(cols * 0.3, rows * 0.35, 0.5);  }, 200);
+  setTimeout(function () { splash(cols * 0.7, rows * 0.25, 0.4);  }, 600);
+  setTimeout(function () { splash(cols * 0.5, rows * 0.55, 0.35); }, 1100);
+  loop();
+  window.addEventListener('resize', function () {
+    cancelAnimationFrame(animId); resize(); loop();
+  });
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCROLL FADE-UP + NAV SCROLL BEHAVIOR                        -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  // Fade-up on scroll
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        var siblings = entry.target.parentElement.querySelectorAll('.fade-up');
+        siblings.forEach(function (sib, idx) {
+          if (!sib.classList.contains('visible'))
+            setTimeout(function () { sib.classList.add('visible'); }, idx * 120);
+        });
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(function (el) { io.observe(el); });
+
+  // Nav darkens on scroll
+  var siteNav = document.querySelector('.site-nav');
+  window.addEventListener('scroll', function () {
+    if (siteNav) siteNav.style.background =
+      window.scrollY > 80 ? 'rgba(4,13,30,0.99)' : 'rgba(4,13,30,0.97)';
+  }, { passive: true });
+
+  // Footer fade-in
+  var footer = document.querySelector('.site-footer');
+  if (footer) {
+    footer.style.opacity = '0'; footer.style.transform = 'translateY(16px)';
+    footer.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    var footerIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          footer.style.opacity = '1'; footer.style.transform = 'translateY(0)';
+          footerIO.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    footerIO.observe(footer);
+  }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- MENU OPEN / CLOSE                                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+function openMenu() {
+  var m = document.getElementById('siteMenu');
+  var o = document.getElementById('menuOverlay');
+  if (m) { m.classList.add('open'); m.setAttribute('aria-hidden','false'); }
+  if (o) o.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  var m = document.getElementById('siteMenu');
+  var o = document.getElementById('menuOverlay');
+  if (m) { m.classList.remove('open'); m.setAttribute('aria-hidden','true'); }
+  if (o) o.classList.remove('active');
+  document.body.style.overflow = '';
+}
+</script>
+
+</body>
+</html>
