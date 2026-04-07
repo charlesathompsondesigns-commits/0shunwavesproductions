@@ -1064,6 +1064,7 @@ body {
   }
 
   function splash(gx, gy, s) {
+    s = Math.min(s, 0.5);
     gx = Math.round(gx); gy = Math.round(gy);
     for (var dy = -5; dy <= 5; dy++) {
       for (var dx = -5; dx <= 5; dx++) {
@@ -1080,7 +1081,7 @@ body {
       for (var x = 1; x < cols - 1; x++) {
         var i = y * cols + x;
         buf1[i] = (buf0[i - 1] + buf0[i + 1] + buf0[i - cols] + buf0[i + cols]) / 2 - buf1[i];
-        buf1[i] *= 0.993;
+        buf1[i] *= 0.985;
       }
     }
     var t = buf0; buf0 = buf1; buf1 = t;
@@ -1135,7 +1136,6 @@ body {
     drag = true;
     if (hint) hint.style.opacity = '0';
     var p = getPos(e); splash(p[0], p[1], 0.85);
-    if (e.cancelable && e.type !== 'touchstart') e.preventDefault();
   }
   function mv(e) {
     if (!drag) return;
