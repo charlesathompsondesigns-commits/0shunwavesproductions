@@ -1074,7 +1074,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     for (var y=1; y<rows-1; y++) for (var x=1; x<cols-1; x++) {
       var i=y*cols+x;
       buf1[i] = (buf0[i-1]+buf0[i+1]+buf0[i-cols]+buf0[i+cols])/2 - buf1[i];
-      buf1[i] *= 0.96;
+      buf1[i] *= 0.985;
     }
     var t=buf0; buf0=buf1; buf1=t;
   }
@@ -1111,28 +1111,47 @@ footer.visible { opacity: 1; transform: translateY(0); }
 
   var drag=false;
   var hint=document.getElementById('waterHint');
+  var touchStartX=0, touchStartY=0, touchIntent=null;
 
   function dn(e) {
-    drag=true; if(hint) hint.style.opacity='0';
-    var p=pos(e); splash(p[0],p[1],0.85);
+    if(e.touches){
+      var s=e.touches[0]; touchStartX=s.clientX; touchStartY=s.clientY; touchIntent=null;
+    } else { drag=true; var p=pos(e); splash(p[0],p[1],0.85); }
+    if(hint) hint.style.opacity='0';
   }
   function mv(e) {
+    if(e.touches){
+      if(touchIntent===null){
+        var s=e.touches[0];
+        var dx=Math.abs(s.clientX-touchStartX), dy=Math.abs(s.clientY-touchStartY);
+        if(dx<4&&dy<4) return;
+        touchIntent=dy>dx?'scroll':'drag';
+        if(touchIntent==='drag'){drag=true; var p=pos(e); splash(p[0],p[1],0.85);}
+      }
+    }
     if(!drag) return;
     var p=pos(e); splash(p[0],p[1],0.45);
   }
+  function up(){drag=false; touchIntent=null;}
   document.addEventListener('mousedown',  dn, {passive:true});
   document.addEventListener('mousemove',  mv, {passive:true});
-  document.addEventListener('mouseup',    function(){drag=false;});
+  document.addEventListener('mouseup',    up);
   document.addEventListener('touchstart', dn, {passive:true});
   document.addEventListener('touchmove',  mv, {passive:true});
-  document.addEventListener('touchend',   function(){drag=false;});
+  document.addEventListener('touchend',   up);
+  document.addEventListener('touchcancel',up);
 
   resize();
   setTimeout(function(){splash(cols*0.30,rows*0.38,0.50);},200);
   setTimeout(function(){splash(cols*0.70,rows*0.28,0.40);},650);
   setTimeout(function(){splash(cols*0.50,rows*0.55,0.35);},1100);
   loop();
-  window.addEventListener('resize',function(){cancelAnimationFrame(animId);resize();loop();});
+  var lastW=window.innerWidth, lastH=window.innerHeight;
+  window.addEventListener('resize',function(){
+    var nW=window.innerWidth,nH=window.innerHeight;
+    if(Math.abs(nW-lastW)<2&&Math.abs(nH-lastH)<80) return;
+    lastW=nW; lastH=nH; cancelAnimationFrame(animId); resize(); loop();
+  });
 })();
 </script>
 
