@@ -642,9 +642,11 @@ body {
   .explore-btn:hover { background: #1E3A5A; transform: none; }
 }
 
-/* ═══ BRAND NEW DAY — DWELL GALLERY ═══ */
+/* ═══ DWELL GALLERIES (Brand New Day + Roots to Reverence) ═══ */
 .bnd-gallery .feature-img { opacity: 0; transition: opacity 0.75s ease; }
 .bnd-gallery .feature-img.bnd-active { opacity: 1; }
+.rtr-gallery .feature-img { opacity: 0; transition: opacity 0.75s ease; }
+.rtr-gallery .feature-img.rtr-active { opacity: 1; }
 .gallery-dots {
   position: absolute; bottom: 12px; left: 0; right: 0;
   display: flex; justify-content: center; gap: 6px;
@@ -851,7 +853,7 @@ body {
     <div class="menu-cta-title">Ready to pour something<br>sacred into the world?</div>
   </div>
   <div class="menu-ig">
-    <span class="menu-ig-label">hello@oshunwaves.com</span>
+    <a href="mailto:oshunwaves.prod@gmail.com" class="menu-ig-label" style="text-decoration:none;color:inherit;">oshunwaves.prod@gmail.com</a>
   </div>
   <div class="menu-footer">
     <span class="menu-footer-logo">Oshun Waves</span>
@@ -939,11 +941,21 @@ body {
 
     <!-- ─── ROOTS TO REVERENCE ────────────────────────────── -->
     <section class="feature-section feature-alt">
-      <div class="feature-image-wrap fade-up" data-parallax-image>
-        <img class="feature-img img-roots-to-reverence"
-          src="img_roots_to_reverence.jpg"
-          alt="Roots to Reverence — Oshun Waves Production"
-          data-parallax="-0.12">
+      <div class="feature-image-wrap rtr-gallery fade-up" data-parallax-image>
+        <img class="feature-img rtr-slide rtr-active" data-parallax="-0.12"
+          src="Roots%20to%20reverance%20/DSC00629.JPG" alt="Roots to Reverence — look 1">
+        <img class="feature-img rtr-slide" data-parallax="-0.12"
+          src="Roots%20to%20reverance%20/DSC00668.JPG" alt="Roots to Reverence — look 2">
+        <img class="feature-img rtr-slide" data-parallax="-0.12"
+          src="Roots%20to%20reverance%20/DSC00716.JPG" alt="Roots to Reverence — look 3">
+        <img class="feature-img rtr-slide" data-parallax="-0.12"
+          src="Roots%20to%20reverance%20/DSC00836.JPG" alt="Roots to Reverence — look 4">
+        <div class="gallery-dots" aria-hidden="true">
+          <span class="gallery-dot active"></span>
+          <span class="gallery-dot"></span>
+          <span class="gallery-dot"></span>
+          <span class="gallery-dot"></span>
+        </div>
       </div>
       <div class="feature-content fade-up">
         <div class="feature-title-wrap">
@@ -972,8 +984,12 @@ body {
     <div class="cta-strip fade-up" id="contact">
       <div class="cta-inner">
         <p class="cta-heading">Stay updated with<br>the <em>latest shows</em></p>
-        <p class="cta-sub">Follow on Instagram</p>
-        <div class="cta-handle">@oshunwaves.prod</div>
+        <a href="https://oshunwaveslinks.univer.se/?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener" class="cta-sub" style="text-decoration:none;color:inherit;">Join the Team · Learn About Upcoming Shows</a>
+        <a href="https://oshunwaveslinks.univer.se/?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener" class="cta-handle" style="text-decoration:none;">View All Links</a>
+        <a href="https://www.instagram.com/oshunwaves.prod" target="_blank" rel="noopener" class="cta-sub" style="text-decoration:none;color:inherit;margin-top:8px;">Follow on Instagram</a>
+        <a href="https://www.instagram.com/oshunwaves.prod" target="_blank" rel="noopener" class="cta-handle" style="text-decoration:none;">@oshunwaves.prod</a>
+        <a href="mailto:oshunwaves.prod@gmail.com" class="cta-sub" style="text-decoration:none;color:inherit;margin-top:8px;">Contact Us</a>
+        <a href="mailto:oshunwaves.prod@gmail.com" class="cta-handle" style="text-decoration:none;">oshunwaves.prod@gmail.com</a>
       </div>
     </div>
 
@@ -981,7 +997,11 @@ body {
 
   <footer class="site-footer">
     <div class="footer-logo">Oshun Waves</div>
-    <div class="footer-links">Contact &nbsp;·&nbsp; Instagram</div>
+    <div class="footer-links">
+      <a href="mailto:oshunwaves.prod@gmail.com" style="color:inherit;text-decoration:none;">Contact</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.instagram.com/oshunwaves.prod" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Instagram</a>
+    </div>
   </footer>
 
 </div><!-- /#site -->
@@ -1319,6 +1339,33 @@ body {
 </script>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
+<!-- ROOTS TO REVERENCE DWELL GALLERY                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  var wrap   = document.querySelector('.rtr-gallery');
+  if (!wrap) return;
+  var slides = Array.from(wrap.querySelectorAll('.rtr-slide'));
+  var dots   = Array.from(wrap.querySelectorAll('.gallery-dot'));
+  var cur = 0, timer = null;
+  function show(n) {
+    slides[cur].classList.remove('rtr-active');
+    dots[cur] && dots[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('rtr-active');
+    dots[cur] && dots[cur].classList.add('active');
+  }
+  function start() { if (!timer) timer = setInterval(function () { show(cur + 1); }, 2500); }
+  function stop()  { clearInterval(timer); timer = null; }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries[0].isIntersecting ? start() : stop();
+    }, { threshold: 0.4 }).observe(wrap);
+  } else { start(); }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- MAGAZINE FLIP ENGINE                                         -->
 <!-- ═══════════════════════════════════════════════════════════ -->
@@ -1399,7 +1446,7 @@ body {
         '<div class="mag-cover-title"><strong>Brand</strong> <em>New Day</em></div>' +
         '<div class="mag-cover-rule"></div>' +
         '<div class="mag-cover-sub">Black Student Union Leaders fusing art,<br>activism, and Black culture</div>' +
-        '<div class="mag-cover-season">Spring / Summer 2026</div>';
+        '<div class="mag-cover-season">Spring / Summer 2025</div>';
       page.appendChild(ct);
     }
   }
